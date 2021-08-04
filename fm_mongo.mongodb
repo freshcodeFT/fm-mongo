@@ -1,0 +1,25 @@
+use('fm_test');
+
+db.products.drop();
+
+db.products.insertMany([
+  { 'item': 'smetana', 'price': 50, 'quantity': 100, 'deadline': new Date('2022-03-01T08:00:00Z') },
+  { 'item': 'hleb', 'price': 20, 'quantity': 501, 'deadline': new Date('2021-03-01T09:00:00Z') },
+  { 'item': 'hleb', 'price': 20, 'quantity': 250, 'deadline': new Date('2021-12-01T09:00:00Z') },
+  { 'item': 'grecha', 'price': 120, 'quantity': 1110, 'deadline': new Date('2021-03-15T09:00:00Z') },
+  { 'item': 'grecha', 'price': 120, 'quantity': 210, 'deadline': new Date('2021-07-15T09:00:00Z') },
+  { 'item': 'makarony', 'price': 30, 'quantity':  250, 'deadline': new Date('2022-04-04T11:21:39.736Z') },
+  { 'item': 'sok', 'price': 40, 'quantity': 100, 'deadline': new Date('2022-04-04T21:23:13.331Z') },
+  { 'item': 'sosiski', 'price': 100, 'quantity': 500, 'deadline': new Date('2021-06-04T05:08:13Z') },
+  { 'item': 'sosiski', 'price': 100, 'quantity': 800, 'deadline': new Date('2021-06-04T05:08:13Z') },
+]);
+
+use('fm_test');
+db.products.find({ deadline: { $gte: new Date('2021-04-04'), $lt: new Date('2021-09-01') } });
+
+
+use('fm_test');
+db.products.aggregate([
+  { $match: { deadline: { $gte: new Date('2021-01-01'), $lt: new Date('2022-01-01') } } },
+  { $group: { _id: '$item', totalQuantity: { $sum: '$quantity' } } }
+]);
