@@ -1,10 +1,12 @@
 const http = require('http')
 const express = require('express')
 const mongoose = require('mongoose')
+const yup = require('yup')
 const { Schema } = mongoose
 
 const app = express()
 const PORT = process.env.PORT || 3000
+const emailValidationSchema = yup.string().email().required()
 
 const userSchema = new Schema({
   firstName: {
@@ -20,7 +22,10 @@ const userSchema = new Schema({
   },
   email: {
     type: String,
-    required: true
+    required: true,
+    validate: {
+      validator: v => emailValidationSchema.isValid(v)
+    }
   },
   isMale: {
     type: Boolean,
@@ -34,7 +39,7 @@ const userSchema = new Schema({
 
 const User = mongoose.model('users', userSchema)
 
-mongoose.connect('mongodb://localhost:27017/test', {
+mongoose.connect('mongodb://localhost:27017/fm_mongo_server', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
