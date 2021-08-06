@@ -39,7 +39,7 @@ const userSchema = new Schema({
 
 const User = mongoose.model('users', userSchema)
 
-mongoose.connect('mongodb://localhost:27017/fm_mongo_server', {
+mongoose.connect('mongodb://fm-mongo:27017/fm_mongo_server', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
